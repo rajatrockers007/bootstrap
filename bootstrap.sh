@@ -29,7 +29,7 @@ fi
 # Enable SSH login (if not already enabled)
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
     sudo $SERVICE_MANAGER enable sshd
-elif ["$PACKAGE_MANAGER" = "dnf"]; then
+elif [ "$PACKAGE_MANAGER" = "dnf" ]; then
     sudo $SERVICE_MANAGER enable sshd
 else
     sudo $SERVICE_MANAGER enable ssh
@@ -37,7 +37,7 @@ fi
 
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
     sudo $SERVICE_MANAGER start sshd
-elif ["$PACKAGE_MANAGER" = "dnf"]; then
+elif [ "$PACKAGE_MANAGER" = "dnf" ]; then
     sudo $SERVICE_MANAGER start sshd
 else
     sudo $SERVICE_MANAGER start ssh
@@ -61,7 +61,7 @@ chmod 600 ~/.ssh/authorized_keys
 # Enable SSH login (if not already enabled)
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
     sudo $SERVICE_MANAGER restart sshd
-elif ["$PACKAGE_MANAGER" = "dnf"]; then
+elif [ "$PACKAGE_MANAGER" = "dnf" ]; then
     sudo $SERVICE_MANAGER restart sshd
 else
     sudo $SERVICE_MANAGER restart ssh
