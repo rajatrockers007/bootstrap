@@ -22,18 +22,22 @@ fi
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
     sudo $PACKAGE_MANAGER -S --noconfirm openssh
 else
-    sudo $PACKAGE_MANAGER update
+    sudo $PACKAGE_MANAGER update -y
     sudo $PACKAGE_MANAGER install openssh-server -y
 fi
 
 # Enable SSH login (if not already enabled)
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
     sudo $SERVICE_MANAGER enable sshd
+elif ["$PACKAGE_MANAGER" = "dnf"]
+    sudo $SERVICE_MANAGER enable sshd
 else
     sudo $SERVICE_MANAGER enable ssh
 fi
 
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    sudo $SERVICE_MANAGER start sshd
+elif ["$PACKAGE_MANAGER" = "dnf"]
     sudo $SERVICE_MANAGER start sshd
 else
     sudo $SERVICE_MANAGER start ssh
