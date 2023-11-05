@@ -61,6 +61,8 @@ chmod 600 ~/.ssh/authorized_keys
 # Enable SSH login (if not already enabled)
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
     sudo $SERVICE_MANAGER restart sshd
+elif ["$PACKAGE_MANAGER" = "dnf"]
+    sudo $SERVICE_MANAGER restart sshd
 else
     sudo $SERVICE_MANAGER restart ssh
 fi
