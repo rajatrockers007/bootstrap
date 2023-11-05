@@ -19,21 +19,25 @@ else
 fi
 
 # Install SSH server
-sudo $PACKAGE_MANAGER update
-sudo $PACKAGE_MANAGER install openssh-server -y
+if [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    sudo $PACKAGE_MANAGER -S --noconfirm openssh
+else
+    sudo $PACKAGE_MANAGER update
+    sudo $PACKAGE_MANAGER install openssh-server -y
+fi
 
 # Enable SSH login (if not already enabled)
-sudo $SERVICE_MANAGER enable ssh
-sudo $SERVICE_MANAGER start ssh
+sudo $SERVICE_MANAGER enable sshd
+sudo $SERVICE_MANAGER start sshd
 
 # Create a directory to store authorized_keys file
 mkdir -p ~/.ssh
 
 # Add public SSH keys to the authorized_keys file
 cat <<EOL >> ~/.ssh/authorized_keys
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCD0ILBlvXb9hE76hOXwls9j32UcxlGs9uvCw9ozBalROkvwoYcCpfS4WAb1E+Izu2K70x935coOlRw5iMEdHrojP3tjb6FD4oU/nGkEXyNVjplGuHCSiYMF6xEDANjOvm/affzHv12fMhqVqyQ6fvtNGYCXB2VqBkbHtMr5iQK65lffb6RelCpvcsEZ1S6JNBjwkH+L81ZWTJEMMP/oJelSd+yVLok9HooAXHlQAYA7YFHzfQGHboMl2iuMlQXzwCr9abWDy5WIU8/8R7uXYBBwHP57rE1K0DRrpXePSMufKxN1IxZXA8twFisbt+287lsHllK5DkSS7ypEwvJ6TNuOKgej1zzjUPh8ep5TI+5XBsPQRPoM6HJxpls4fsyzaiPy5neF2UmC9rWSqlkvHLEK1BdrlXohNjnnjPbRBYvb6RTpGrjECxMnXCyEVTVtw4HoHz8s3jNicn/jcNOBH3FYXK7PJxwrYqTwPjYWQ/TPzvDRmCI0AuUUsc742YTAPE= rajat@LXC-Docker
 # Add your public SSH keys here, one per line
 ssh-rsa YOUR_PUBLIC_KEY_1 comment1
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCD0ILBlvXb9hE76hOXwls9j32UcxlGs9uvCw9ozBalROkvwoYcCpfS4WAb1E+Izu2K70x935coOlRw5iMEdHrojP3tjb6FD4oU/nGkEXyNVjplGuHCSiYMF6xEDANjOvm/affzHv12fMhqVqyQ6fvtNGYCXB2VqBkbHtMr5iQK65lffb6RelCpvcsEZ1S6JNBjwkH+L81ZWTJEMMP/oJelSd+yVLok9HooAXHlQAYA7YFHzfQGHboMl2iuMlQXzwCr9abWDy5WIU8/8R7uXYBBwHP57rE1K0DRrpXePSMufKxN1IxZXA8twFisbt+287lsHllK5DkSS7ypEwvJ6TNuOKgej1zzjUPh8ep5TI+5XBsPQRPoM6HJxpls4fsyzaiPy5neF2UmC9rWSqlkvHLEK1BdrlXohNjnnjPbRBYvb6RTpGrjECxMnXCyEVTVtw4HoHz8s3jNicn/jcNOBH3FYXK7PJxwrYqTwPjYWQ/TPzvDRmCI0AuUUsc742YTAPE= rajat@LXC-Docker
 ssh-rsa YOUR_PUBLIC_KEY_2 comment2
 # Add more keys as needed
 EOL
