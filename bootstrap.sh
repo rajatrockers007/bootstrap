@@ -27,9 +27,17 @@ else
 fi
 
 # Enable SSH login (if not already enabled)
-sudo $SERVICE_MANAGER enable sshd
-sudo $SERVICE_MANAGER start sshd
+if [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    sudo $SERVICE_MANAGER enable sshd
+else
+    sudo $SERVICE_MANAGER enable ssh
+fi
 
+if [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    sudo $SERVICE_MANAGER start sshd
+else
+    sudo $SERVICE_MANAGER start ssh
+fi
 # Create a directory to store authorized_keys file
 mkdir -p ~/.ssh
 
