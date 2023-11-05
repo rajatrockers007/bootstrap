@@ -54,6 +54,13 @@ EOL
 chmod 600 ~/.ssh/authorized_keys
 
 # Restart SSH for changes to take effect
-sudo $SERVICE_MANAGER restart ssh
+# Enable SSH login (if not already enabled)
+if [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    sudo $SERVICE_MANAGER restart sshd
+else
+    sudo $SERVICE_MANAGER restart ssh
+fi
+
+
 
 echo "SSH server is installed, login is enabled, and public keys have been added to authorized_keys."
