@@ -1,6 +1,6 @@
 #!/bin/bash
 addgroup rajat
-useradd rajat --create-home --shell /bin/bash --groups rajat
+useradd rajat --create-home --shell /bin/bash -g rajat
 #gpasswd -a rajat sudo #allowing sudo requires password, and not a good idea for a service account.
 mkdir /home/rajat/.ssh
 cat <<EOL >> /home/rajat/.ssh/authorized_keys
