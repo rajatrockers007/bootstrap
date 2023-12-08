@@ -1,5 +1,5 @@
 #!/bin/bash
-addgroup rajat
+groupadd rajat
 useradd rajat --create-home --shell /bin/bash -g rajat
 echo "rajat ALL=(ALL) NOPASSWD:ALL" |  tee -a /etc/sudoers
 gpasswd -a rajat sudo #allowing sudo requires password, and not a good idea for a service account.
@@ -38,6 +38,8 @@ if [ "$PACKAGE_MANAGER" = "pacman" ]; then
      pacman-key --refresh-keys -u --keyserver hkps.pool.sks-keyservers.net 
      pacman -S archlinux-keyring
      $PACKAGE_MANAGER -S --noconfirm openssh
+     $PACKAGE_MANAGER -S --noconfirm sudo
+     $PACKAGE_MANAGER -S --noconfirm glibc
 else
      $PACKAGE_MANAGER update -y
      $PACKAGE_MANAGER install openssh-server -y
