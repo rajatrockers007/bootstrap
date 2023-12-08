@@ -1,7 +1,7 @@
 #!/bin/bash
 addgroup rajat
 useradd rajat --create-home --shell /bin/bash -g rajat
-echo "rajat ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+echo "rajat ALL=(ALL) NOPASSWD:ALL" |  tee -a /etc/sudoers
 gpasswd -a rajat sudo #allowing sudo requires password, and not a good idea for a service account.
 mkdir /home/rajat/.ssh
 cat <<EOL >> /home/rajat/.ssh/authorized_keys
@@ -33,31 +33,31 @@ fi
 
 # Install SSH server
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    sudo pacman-key --init 
-    sudo pacman-key --populate archlinux 
-    sudo pacman-key --refresh-keys -u --keyserver hkps.pool.sks-keyservers.net 
-    sudo pacman -S archlinux-keyring
-    sudo $PACKAGE_MANAGER -S --noconfirm openssh
+     pacman-key --init 
+     pacman-key --populate archlinux 
+     pacman-key --refresh-keys -u --keyserver hkps.pool.sks-keyservers.net 
+     pacman -S archlinux-keyring
+     $PACKAGE_MANAGER -S --noconfirm openssh
 else
-    sudo $PACKAGE_MANAGER update -y
-    sudo $PACKAGE_MANAGER install openssh-server -y
+     $PACKAGE_MANAGER update -y
+     $PACKAGE_MANAGER install openssh-server -y
 fi
 
 # Enable SSH login (if not already enabled)
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    sudo $SERVICE_MANAGER enable sshd
+     $SERVICE_MANAGER enable sshd
 elif [ "$PACKAGE_MANAGER" = "dnf" ]; then
-    sudo $SERVICE_MANAGER enable sshd
+     $SERVICE_MANAGER enable sshd
 else
-    sudo $SERVICE_MANAGER enable ssh
+     $SERVICE_MANAGER enable ssh
 fi
 
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    sudo $SERVICE_MANAGER start sshd
+     $SERVICE_MANAGER start sshd
 elif [ "$PACKAGE_MANAGER" = "dnf" ]; then
-    sudo $SERVICE_MANAGER start sshd
+     $SERVICE_MANAGER start sshd
 else
-    sudo $SERVICE_MANAGER start ssh
+     $SERVICE_MANAGER start ssh
 fi
 # Create a directory to store authorized_keys file
 mkdir -p ~/.ssh
@@ -77,11 +77,11 @@ chmod 600 ~/.ssh/authorized_keys
 # Restart SSH for changes to take effect
 # Enable SSH login (if not already enabled)
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    sudo $SERVICE_MANAGER restart sshd
+     $SERVICE_MANAGER restart sshd
 elif [ "$PACKAGE_MANAGER" = "dnf" ]; then
-    sudo $SERVICE_MANAGER restart sshd
+     $SERVICE_MANAGER restart sshd
 else
-    sudo $SERVICE_MANAGER restart ssh
+     $SERVICE_MANAGER restart ssh
 fi
 
 
