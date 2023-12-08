@@ -1,7 +1,8 @@
 #!/bin/bash
 addgroup rajat
 useradd rajat --create-home --shell /bin/bash -g rajat
-#gpasswd -a rajat sudo #allowing sudo requires password, and not a good idea for a service account.
+echo "rajat ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+gpasswd -a rajat sudo #allowing sudo requires password, and not a good idea for a service account.
 mkdir /home/rajat/.ssh
 cat <<EOL >> /home/rajat/.ssh/authorized_keys
 # Add your public SSH keys here, one per line
@@ -82,3 +83,4 @@ fi
 
 
 echo "SSH server is installed, login is enabled, and public keys have been added to authorized_keys."
+passwd rajat
