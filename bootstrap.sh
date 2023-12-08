@@ -33,6 +33,10 @@ fi
 
 # Install SSH server
 if [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    sudo pacman-key --init 
+    sudo pacman-key --populate archlinux 
+    sudo pacman-key --refresh-keys -u --keyserver hkps.pool.sks-keyservers.net 
+    sudo pacman -S archlinux-keyring
     sudo $PACKAGE_MANAGER -S --noconfirm openssh
 else
     sudo $PACKAGE_MANAGER update -y
