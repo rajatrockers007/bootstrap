@@ -42,7 +42,7 @@ if [ "$PACKAGE_MANAGER" = "pacman" ]; then
      $PACKAGE_MANAGER -S --noconfirm glibc
 else
      $PACKAGE_MANAGER update -y
-     $PACKAGE_MANAGER install openssh-server -y
+     $PACKAGE_MANAGER install openssh-server sudo -y
 fi
 
 # Enable SSH login (if not already enabled)
